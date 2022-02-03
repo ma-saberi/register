@@ -33,7 +33,7 @@ public class User {
     private String password;
 
     @Column
-    private Long number;
+    private Long phoneNumber;
 
     @Column
     private String address;
