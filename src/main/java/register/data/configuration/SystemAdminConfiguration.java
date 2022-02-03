@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import register.data.entity.User;
+import register.data.entity.UserRole;
 import register.data.repository.UserRepository;
 
 import javax.annotation.PostConstruct;
@@ -25,7 +26,7 @@ public class SystemAdminConfiguration {
     public void setAdmin() {
         User admin = userRepository.getUserByUsername(ADMIN_USERNAME);
         if (admin == null) {
-            userRepository.registerUser(ADMIN_USERNAME, null, ADMIN_EMAIL, ADMIN_PASSWORD, null, null, null);
+            userRepository.registerUser(ADMIN_USERNAME, null, ADMIN_EMAIL, ADMIN_PASSWORD, null, null, null, UserRole.ADMIN);
         }
     }
 
