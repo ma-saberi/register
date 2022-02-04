@@ -31,7 +31,7 @@ public interface UserMapper {
     @Named("introducerToIntroducer")
     default String introducerToIntroducer(register.data.entity.User introducer) {
         if (introducer != null) {
-            return introducer.getUserName();
+            return introducer.getUsername();
         }
         return null;
     }

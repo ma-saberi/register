@@ -19,7 +19,7 @@ public class UserRepository {
     public User getUserByUsername(String username) {
 
         Session session = sessionFactory.getCurrentSession();
-        return (User) session.createQuery("FROM User WHERE userName = :username")
+        return (User) session.createQuery("FROM User WHERE username = :username")
                 .setParameter("username", username)
                 .uniqueResult();
 
@@ -31,7 +31,7 @@ public class UserRepository {
         User user = new User();
 
         user.setName(name);
-        user.setUserName(username);
+        user.setUsername(username);
         user.setEmail(email);
         user.setAddress(address);
         user.setPhoneNumber(number);

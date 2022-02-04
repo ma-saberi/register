@@ -17,7 +17,7 @@ public class JwtUserDetailsService implements UserDetailsService {
     }
 
     public UserDetails generateUserDetails(register.data.entity.User user) {
-        return new User(user.getUserName(), user.getPassword(),
+        return new User(user.getUsername(), user.getPassword(),
                 new ArrayList<>());
     }
 }
