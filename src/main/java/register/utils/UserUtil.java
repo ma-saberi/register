@@ -12,7 +12,9 @@ public class UserUtil {
     public boolean isAuthenticated() {
         SecurityContext context = SecurityContextHolder.getContext();
         return context != null &&
-                context.getAuthentication() != null;
+                context.getAuthentication() != null &&
+                context.getAuthentication().getPrincipal() != null &&
+                !context.getAuthentication().getPrincipal().equals("_ANONYMOUS_");
     }
 
     public User getCredential() {
