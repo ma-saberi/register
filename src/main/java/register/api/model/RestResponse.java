@@ -25,11 +25,8 @@ public class RestResponse<T> implements RegisterApiModel {
     public RestResponse(HttpStatus status, String error, String path, String message, T result, String reference, Date timestamp) {
         this.status = status.value();
         this.error = error;
-        this.path = path;
         this.message = message;
         this.result = result;
-        this.reference = reference;
-        this.timestamp = timestamp;
     }
 
     @Builder(builderMethodName = "sBuilder")
@@ -39,16 +36,6 @@ public class RestResponse<T> implements RegisterApiModel {
         this.path = path;
         this.message = message;
         this.result = null;
-    }
-
-    @Builder(builderMethodName = "kBuilder")
-    public RestResponse(int status, String error, String path, Date timestamp, String message) {
-        this.status = status;
-        this.error = error;
-        this.path = path;
-        this.result = null;
-        this.timestamp = timestamp;
-        this.message = message;
     }
 
 }

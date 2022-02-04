@@ -24,9 +24,9 @@ public class SystemAdminConfiguration {
 
     @PostConstruct
     public void setAdmin() {
-        User admin = userRepository.getUserByUsername(ADMIN_USERNAME);
+        User admin = userRepository.getSystemAdmin();
         if (admin == null) {
-            userRepository.registerUser(ADMIN_USERNAME, null, ADMIN_EMAIL, ADMIN_PASSWORD, null, null, null, UserRole.ADMIN);
+            userRepository.registerUser(ADMIN_USERNAME, null, ADMIN_EMAIL, ADMIN_PASSWORD, null, null, null, UserRole.SYS_ADMIN);
         }
     }
 

@@ -30,7 +30,6 @@ public class RestResponseExceptionHandler extends ResponseEntityExceptionHandler
                         status.getCode(),
                         status.getReasonPhrase(),
                         (String) request.getAttribute("userUri"),
-                        null,
                         exception.getMessage()
                 ));
     }
