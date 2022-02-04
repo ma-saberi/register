@@ -1,4 +1,4 @@
-package register.api.configuration;
+package register.domain;
 
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -17,7 +17,17 @@ public enum UserExceptionStatus {
     //region 401 Unauthorized
 
     INVALID_PASSWORD(401, "Invalid password", "رمز وارد شده معتبر نمی باشد."),
+    INVALID_AUTHORIZATION_TYPE(401, "Invalid authorization type", "احراز هویت باید از نوع Bearer باشد"),
+    UNAUTHORIZED(401, "Unauthorized", "درخواست دسترسی معتبر نیست."),
 
+    //endregion
+
+
+    //region 400 Bad Request: The server could not understand the request due to invalid syntax.
+
+    //region Invalids data
+    // https://stackoverflow.com/questions/6123425/rest-response-code-for-invalid-data
+    INVALID_REQUEST(400, "Invalid request", "درخواست معتبر نمی‌باشد."),
     //endregion
     ;
 
@@ -25,6 +35,9 @@ public enum UserExceptionStatus {
     private final String reasonPhrase;
     private final String message;
 
+    public int getCode() {
+        return code;
+    }
 
     public String getMessage() {
         return message;

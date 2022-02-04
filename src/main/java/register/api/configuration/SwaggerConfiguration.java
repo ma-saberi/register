@@ -17,7 +17,10 @@ import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.schema.ModelRef;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.ApiKey;
+import springfox.documentation.service.AuthorizationScope;
+import springfox.documentation.service.SecurityReference;
 import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger.web.DocExpansion;
 import springfox.documentation.swagger.web.UiConfiguration;
@@ -26,6 +29,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 @Configuration
@@ -57,6 +62,7 @@ public class SwaggerConfiguration {
                 .protocols(SWAGGER_HOST_PROTOCOLS)
                 .host(SWAGGER_HOST_URL)
                 .securitySchemes(Arrays.asList(apiKey()))
+                .securityContexts(securityContexts())
                 .globalOperationParameters(
                         Arrays.asList(new ParameterBuilder().name("Accept-Language")
                                 .modelRef(new ModelRef("string"))
@@ -78,6 +84,18 @@ public class SwaggerConfiguration {
         return new ApiKey("Bearer", "Authorization", "header");
     }
 
+    private List<SecurityContext> securityContexts() {
+        return Arrays.asList(
+                SecurityContext.builder()
+                        .securityReferences(defaultAuth())
+                        .build()
+        );
+    }
+
+    private List<SecurityReference> defaultAuth() {
+        final AuthorizationScope[] authorizationScopes = new AuthorizationScope[]{};
+        return Collections.singletonList(new SecurityReference("Bearer", authorizationScopes));
+    }
 
     @Bean
     public UiConfiguration uiConfig() {
