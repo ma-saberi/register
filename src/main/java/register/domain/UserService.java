@@ -14,6 +14,8 @@ import register.exception.UserException;
 import register.exception.UserExceptionStatus;
 import register.utils.UserUtil;
 
+import java.util.List;
+
 
 @Slf4j
 @Service
@@ -80,5 +82,19 @@ public class UserService {
         }
         user.setRole(role);
         userRepository.updateUser(user);
+    }
+
+    @Transactional
+    public List<User> searchUser(String name, String username, String email, String introducer, Long number, String address) throws UserException {
+        User user = userUtil.getCredential();
+        if (user.getRole().equals(UserRole.USER)) {
+            if (introducer != null && !user.getUsername().equals(introducer)) {
+                throw new UserException(UserExceptionStatus.INTRODUCER_PERMISSION_DENIED);
+            }
+
+            return userRepository.search(user, name, username, email, user.getUsername(), number, address);
+        }
+
+        return userRepository.search(user, name, username, email, introducer, number, address);
     }
 }

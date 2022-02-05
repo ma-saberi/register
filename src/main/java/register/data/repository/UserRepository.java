@@ -3,11 +3,14 @@ package register.data.repository;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import register.data.entity.User;
 import register.data.entity.UserRole;
+
+import java.util.List;
 
 @Transactional
 @Repository
@@ -47,5 +50,41 @@ public class UserRepository {
     public void updateUser(User user) {
         Session session = sessionFactory.getCurrentSession();
         session.update(user);
+    }
+
+    public List<User> search(User user, String name, String username, String email, String introducer, Long phoneNumber, String address) {
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("FROM User WHERE " +
+                "username != :user " +
+                (name == null ? "" : "AND name = :name ") +
+                (username == null ? "" : "AND username = :username ") +
+                (email == null ? "" : "AND email = :email ") +
+                (introducer == null ? "" : "AND introducer.username = :introducer ") +
+                (phoneNumber == null ? "" : "AND phoneNumber = :phoneNumber ") +
+                (address == null ? "" : "AND address = :address "))
+                .setParameter("user", user.getUsername());
+
+        if (name != null) {
+            query.setParameter("name", name);
+        }
+        if (username != null) {
+            query.setParameter("username", username);
+        }
+        if (email != null) {
+            query.setParameter("email", email);
+        }
+        if (introducer != null) {
+            query.setParameter("introducer", introducer);
+        }
+        if (phoneNumber != null) {
+            query.setParameter("phoneNumber", phoneNumber);
+        }
+        if (address != null) {
+            query.setParameter("address", address);
+        }
+
+        List<User> list = (List<User>) query.list();
+
+        return list;
     }
 }

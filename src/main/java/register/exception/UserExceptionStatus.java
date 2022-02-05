@@ -17,13 +17,15 @@ public enum UserExceptionStatus {
     //region 401 Unauthorized
 
     INVALID_PASSWORD(401, "Invalid password", "رمز وارد شده معتبر نمی باشد."),
-    INVALID_AUTHORIZATION_TYPE(401, "Invalid authorization type", "احراز هویت باید از نوع Bearer باشد"),
     UNAUTHORIZED(401, "Unauthorized", "درخواست دسترسی معتبر نیست."),
 
     //endregion
 
+    //region 403 Forbidden
 
-    //region 400 Bad Request: The server could not understand the request due to invalid syntax.
+    INTRODUCER_PERMISSION_DENIED(403, "Introducer permission denied.", "به معرفی کننده موردنظر دسترسی ندارید"),
+
+    //endregion
 
     //region 400 Bad request
 
