@@ -88,6 +88,13 @@ public class UserRepository {
         return list;
     }
 
+    public User getSystemAdmin() {
+        Session session = sessionFactory.getCurrentSession();
+        return (User) session.createQuery("FROM User WHERE role = :role")
+                .setParameter("role", UserRole.SYS_ADMIN)
+                .uniqueResult();
+    }
+
     public User checkUniqueData(String column, String value) {
         Session session = sessionFactory.getCurrentSession();
 
