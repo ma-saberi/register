@@ -57,4 +57,13 @@ public class UserService {
 
         return userRepository.registerUser(username, name, email, password, number, address, introducerUser, UserRole.USER);
     }
+
+    @Transactional
+    public User getMe() throws UserException {
+        User user = userUtil.getCredential();
+        if (user == null) {
+            throw new UserException(UserExceptionStatus.UNAUTHORIZED);
+        }
+        return user;
+    }
 }

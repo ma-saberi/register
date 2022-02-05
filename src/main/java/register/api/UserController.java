@@ -80,4 +80,28 @@ public class UserController {
                 );
 
     }
+
+    @ApiOperation(value = "about user")
+    @ApiResponses(value = {
+            @ApiResponse(code = 401, message = "Unauthorized"),
+    })
+    @GetMapping("/users/me")
+    @ResourceRole({UserRole.ADMIN, UserRole.USER})
+    public ResponseEntity<?> getMe() throws UserException {
+
+        User user = userService.getMe();
+        register.api.model.User result = UserMapper.INSTANCE.modelToApi(user);
+
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(
+                        RestResponse.Builder()
+                                .result(result)
+                                .status(HttpStatus.OK)
+                                .build()
+                );
+
+    }
+
 }
