@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import register.data.entity.User;
 import register.exception.UserException;
+import register.utils.JsonUtil;
 import register.utils.UserUtil;
 
 import javax.servlet.http.HttpServletRequest;
@@ -40,14 +41,16 @@ public class EndpointAspect {
 
             try {
                 User user = userUtil.getCredential();
-                String userUri = (String) request.getAttribute("userUri");
                 String address = request.getHeader("X-Forwarded-For");
                 address = StringUtils.isBlank(address) ? request.getRemoteAddr() : address;
-
-                log.info("*REQUEST--> " + address + " | " + (user != null ? user.getUsername() : "_ANONYMOUS_") + " | " + userUri);
+                String requestURI = request.getRequestURI();
+                String method = request.getMethod();
+                request.setAttribute("userUri", method + " " + requestURI);
+                log.info("*REQUEST--> " + address + " | " + (user != null ? user.getUsername() : "_ANONYMOUS_") + " | " + method + " " + requestURI + " | " + "*PARAMETER--> " + JsonUtil.getStringJson(request.getParameterMap()));
             } catch (Exception e) {
                 log.warn(e.getMessage());
             }
+
 
         }
 
@@ -63,9 +66,7 @@ public class EndpointAspect {
                 User user = userUtil.getCredential();
                 String address = request.getHeader("X-Forwarded-For");
                 address = StringUtils.isBlank(address) ? request.getRemoteAddr() : address;
-
-                log.info("*RESPONSE--> " + address + " | " + (user != null ? user.getUsername() : "_ANONYMOUS_") + " | " + ((ResponseEntity) returnValue).getStatusCode());
-
+                log.info("*RESPONSE--> " + address + " | " + (user != null ? user.getUsername() : "_ANONYMOUS_") + " | " + JsonUtil.getStringJson(returnValue));
             }
         } catch (Exception e) {
             log.warn(e.getMessage());
@@ -74,7 +75,7 @@ public class EndpointAspect {
 
 
     @AfterThrowing(pointcut = ("within(register.api.*)"), throwing = "e")
-    public void endpointAfterThrowing(JoinPoint p, Exception e) throws Exception {
+    public void endpointAfterThrowing(JoinPoint p, Exception e) {
 
         try {
 

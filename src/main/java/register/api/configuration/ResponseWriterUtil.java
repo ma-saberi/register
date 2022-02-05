@@ -41,9 +41,8 @@ public class ResponseWriterUtil {
         response.setCharacterEncoding("utf-8");
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 
-        String server = "Space Server " + "v" + SEVER_VERSION + " #" + SEVER_NAME;
+        String server = "Register Server " + "v" + SEVER_VERSION + " #" + SEVER_NAME;
         response.setHeader("Server", server);
-        response.setHeader("X-Powered-By", "FanapSoft/PodPlatform (" + server + ")");
 
         response.getWriter().write(JsonUtil.getStringJson(restResponse));
     }

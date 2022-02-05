@@ -95,7 +95,7 @@ public class UserController {
             @ApiResponse(code = 401, message = "Unauthorized"),
     })
     @GetMapping("/users/me")
-    @ResourceRole({UserRole.ADMIN, UserRole.USER})
+    @ResourceRole({UserRole.SYS_ADMIN, UserRole.ADMIN, UserRole.USER})
     public ResponseEntity<?> getMe() throws UserException {
 
         User user = userService.getMe();
