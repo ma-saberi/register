@@ -3,6 +3,7 @@ package register.api.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import register.data.entity.UserRole;
 
 @Setter
 @Getter
@@ -15,6 +16,7 @@ public class User {
     private String number;
     private String address;
     private String introducer;
+    private UserRole role;
     private Long created;
 
 }

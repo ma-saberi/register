@@ -16,6 +16,7 @@ public interface UserMapper {
 
 
     @Mapping(source = "created", target = "created", qualifiedByName = "dateToTimestamp")
+    @Mapping(source = "role", target = "role")
     @Mapping(source = "introducer", target = "introducer", qualifiedByName = "introducerToIntroducer")
     User modelToApi(register.data.entity.User dataLayerObj);
 
