@@ -1,5 +1,5 @@
 package register.data.entity;
 
 public enum UserRole {
-    ADMIN, USER
+    SYS_ADMIN, ADMIN, USER
 }

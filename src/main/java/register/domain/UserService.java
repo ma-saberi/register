@@ -6,12 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import register.api.configuration.JwtTokenUtil;
-import register.api.configuration.JwtUserDetailsService;
+import register.api.model.Login;
 import register.data.entity.User;
 import register.data.entity.UserRole;
 import register.data.repository.UserRepository;
 import register.exception.UserException;
 import register.exception.UserExceptionStatus;
+import register.utils.UserUtil;
 
 
 @Slf4j
@@ -27,12 +28,16 @@ public class UserService {
     @Autowired
     private JwtUserDetailsService jwtUserDetailsService;
 
-    public String login(String username, String password) throws UserException {
-        User user = userRepository.getUserByUsername(username);
+    @Autowired
+    private UserUtil userUtil;
+
+    public String login(Login login) throws UserException {
+
+        User user = userRepository.getUserByUsername(login.getUsername());
         if (user == null) {
             throw new UserException(UserExceptionStatus.USERNAME_NOT_FOUND);
         }
-        if (!user.getPassword().equals(DigestUtils.md5Hex(password))) {
+        if (!user.getPassword().equals(DigestUtils.md5Hex(login.getPassword()))) {
             throw new UserException(UserExceptionStatus.INVALID_PASSWORD);
         }
         return jwtTokenUtil.generateToken(jwtUserDetailsService.generateUserDetails(user));

@@ -1,18 +1,21 @@
 package register.api;
 
+import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import register.api.model.Login;
 import register.api.model.RestResponse;
 import register.data.entity.User;
+import register.data.entity.UserRole;
 import register.data.mapperToApi.UserMapper;
 import register.domain.UserService;
+import register.domain.annotation.ResourceRole;
 import register.exception.UserException;
 
 
@@ -24,15 +27,14 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-
     @PostMapping("/users/login")
     public ResponseEntity<?> login(
-            @RequestParam("username") String username,
-            @RequestParam("password") String password
+            @ApiParam(value = "Search query")
+            @RequestBody Login login
     ) throws UserException {
 
 
-        String token = userService.login(username, password);
+        String token = userService.login(login);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
