@@ -104,4 +104,13 @@ public class UserRepository {
                 .uniqueResult();
 
     }
+
+    public List<User> getUserByIntroducer(User introducer) {
+
+        Session session = sessionFactory.getCurrentSession();
+        return (List<User>) session.createQuery("FROM User WHERE introducer = :introducer", User.class)
+                .setParameter("introducer", introducer)
+                .list();
+
+    }
 }

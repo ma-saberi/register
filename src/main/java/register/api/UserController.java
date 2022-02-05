@@ -174,4 +174,25 @@ public class UserController {
 
     }
 
+    @GetMapping("/users/{introducer}")
+    @ResourceRole({UserRole.SYS_ADMIN, UserRole.ADMIN, UserRole.USER})
+    public ResponseEntity<?> getUserByIntroducer(
+            @ApiParam(name = "introducer", value = "username of introducer")
+            @PathVariable("introducer") String introducer
+    ) throws UserException {
+
+
+        List<User> users = userService.getUserByIntroducer(introducer);
+        List<register.api.model.User> result = users.stream().map(UserMapper.INSTANCE::modelToApi).collect(Collectors.toList());
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(
+                        RestResponse.Builder()
+                                .result(result)
+                                .status(HttpStatus.OK)
+                                .build()
+                );
+
+    }
+
 }

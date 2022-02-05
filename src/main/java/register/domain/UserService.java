@@ -114,4 +114,25 @@ public class UserService {
         }
         return true;
     }
+
+    @Transactional
+    public List<User> getUserByIntroducer(String introducer) throws UserException {
+
+        User user = userUtil.getCredential();
+
+        User introducerUser = userRepository.getUserByUsername(introducer);
+        if (introducerUser == null) {
+            throw new UserException(UserExceptionStatus.INTRODUCER_NOT_FOUND);
+        }
+
+        if (user.getRole().equals(UserRole.USER)) {
+            if (introducer != null && !user.getUsername().equals(introducer)) {
+                throw new UserException(UserExceptionStatus.INTRODUCER_PERMISSION_DENIED);
+            }
+        }
+
+        List<User> users = userRepository.getUserByIntroducer(introducerUser);
+
+        return users;
+    }
 }
