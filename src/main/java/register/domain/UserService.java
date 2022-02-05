@@ -139,6 +139,10 @@ public class UserService {
             }
         }
 
+        if (user.getRole().equals(UserRole.ADMIN) && introducerUser.getRole().equals(UserRole.SYS_ADMIN)) {
+            throw new UserException(UserExceptionStatus.INTRODUCER_PERMISSION_DENIED);
+        }
+
         List<User> users = userRepository.getUserByIntroducer(introducerUser);
 
         return users;
