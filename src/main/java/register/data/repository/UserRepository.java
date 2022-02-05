@@ -87,4 +87,14 @@ public class UserRepository {
 
         return list;
     }
+
+    public User checkUniqueData(String column, String value) {
+        Session session = sessionFactory.getCurrentSession();
+
+        return (User) session.createQuery(
+                "FROM User WHERE " + column + " = :value ")
+                .setParameter("value", value)
+                .uniqueResult();
+
+    }
 }

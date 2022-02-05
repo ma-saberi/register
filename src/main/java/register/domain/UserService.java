@@ -48,6 +48,14 @@ public class UserService {
     @Transactional
     public User registerUser(String username, String name, String email, String password, Long number, String address, String introducer) throws UserException {
 
+        if (!checkUniqueData("username", username)) {
+            throw new UserException(UserExceptionStatus.INVALID_UNIQUE_USERNAME);
+        }
+
+        if (!checkUniqueData("email", email)) {
+            throw new UserException(UserExceptionStatus.INVALID_UNIQUE_EMAIL);
+        }
+
         User introducerUser = null;
         if (introducer != null && !introducer.isEmpty()) {
             introducerUser = userRepository.getUserByUsername(introducer);
@@ -96,5 +104,14 @@ public class UserService {
         }
 
         return userRepository.search(user, name, username, email, introducer, number, address);
+    }
+
+    @Transactional
+    public boolean checkUniqueData(String column, String value) {
+        User user = userRepository.checkUniqueData(column, value);
+        if (user != null) {
+            return false;
+        }
+        return true;
     }
 }

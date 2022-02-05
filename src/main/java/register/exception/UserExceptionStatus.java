@@ -30,6 +30,8 @@ public enum UserExceptionStatus {
     //region 400 Bad request
 
     INVALID_ROLE_CHANGE(400, "Invalid role change.", "تغییر نقش به /از مدیر سیستم معتبر نمی باشد"),
+    INVALID_UNIQUE_USERNAME(400, "Username isn't unique.", "نام کاربری وارد شده یکتا نمی باشد."),
+    INVALID_UNIQUE_EMAIL(400, "Email isn't unique.", "ایمیل وارد شده یکتا نمی باشد."),
 
     //endregion
 

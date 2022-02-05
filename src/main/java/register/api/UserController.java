@@ -50,27 +50,33 @@ public class UserController {
 
     }
 
+    @ApiOperation(value = "Register user")
+    @ApiResponses(value = {
+            @ApiResponse(code = 400, message = "Username isn't unique."),
+            @ApiResponse(code = 400, message = "Email isn't unique."),
+            @ApiResponse(code = 402, message = "Not found introducer user"),
+    })
     @PostMapping("/users")
     public ResponseEntity<?> registerUser(
             @ApiParam(name = "name")
             @RequestParam(value = "name", required = false) String name,
             @ApiParam(name = "username", required = true)
-            @RequestParam("username") String username,
+            @RequestParam(value = "username") String username,
             @ApiParam(name = "email", required = true)
-            @RequestParam("email") String email,
+            @RequestParam(value = "email") String email,
             @ApiParam(name = "password", required = true)
-            @RequestParam("password") String password,
-            @ApiParam(name = "introducer")
+            @RequestParam(value = "password") String password,
+            @ApiParam(name = "introducer", value = "username of introducer")
             @RequestParam(value = "introducer", required = false) String introducer,
-            @ApiParam(name = "number")
-            @RequestParam(value = "number", required = false) Long number,
+            @ApiParam(name = "phoneNumber")
+            @RequestParam(value = "phoneNumber", required = false) Long phoneNumber,
             @ApiParam(name = "address")
             @RequestParam(value = "address", required = false) String address
 
     ) throws UserException {
 
 
-        User user = userService.registerUser(username, name, email, password, number, address, introducer);
+        User user = userService.registerUser(username, name, email, password, phoneNumber, address, introducer);
         register.api.model.User userModel = UserMapper.INSTANCE.modelToApi(user);
 
         return ResponseEntity
