@@ -104,4 +104,29 @@ public class UserController {
 
     }
 
+    @ApiOperation(value = "Change role")
+    @ApiResponses(value = {
+            @ApiResponse(code = 400, message = "Invalid role change."),
+            @ApiResponse(code = 404, message = "Not found user with this username."),
+    })
+    @GetMapping("/users/role")
+    @ResourceRole(UserRole.SYS_ADMIN)
+    public ResponseEntity<?> changeRole(
+            @RequestParam("username") String username,
+            @RequestParam("role") UserRole role
+    ) throws UserException {
+
+        userService.changeRole(username, role);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(
+                        RestResponse.Builder()
+                                .status(HttpStatus.OK)
+                                .message("تغییر نقش با موفقیت انجام شد.")
+                                .build()
+                );
+
+    }
+
 }

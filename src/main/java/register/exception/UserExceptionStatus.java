@@ -8,9 +8,9 @@ import org.apache.commons.lang3.tuple.Pair;
 public enum UserExceptionStatus {
 
     //region 404 Not Found: The server can not find the requested resource.
-    INTRODUCER_NOT_FOUND(404, "Not found introducer user", "کاربر معرفی کننده یافت نشد"),
-    USERNAME_NOT_FOUND(404, "Not found user with this username", "کاربری با نام کاربری موردنظر یافت نشد"),
-    EMAIL_NOT_FOUND(404, "Not found user with this email", "کاربری با ایمیل موردنظر یافت نشد"),
+    INTRODUCER_NOT_FOUND(404, "Not found introducer user.", "کاربر معرفی کننده یافت نشد"),
+    USERNAME_NOT_FOUND(404, "Not found user with this username.", "کاربری با نام کاربری موردنظر یافت نشد"),
+    EMAIL_NOT_FOUND(404, "Not found user with this email.", "کاربری با ایمیل موردنظر یافت نشد"),
 
     //endregion
 
@@ -25,10 +25,12 @@ public enum UserExceptionStatus {
 
     //region 400 Bad Request: The server could not understand the request due to invalid syntax.
 
-    //region Invalids data
-    // https://stackoverflow.com/questions/6123425/rest-response-code-for-invalid-data
-    INVALID_REQUEST(400, "Invalid request", "درخواست معتبر نمی‌باشد."),
+    //region 400 Bad request
+
+    INVALID_ROLE_CHANGE(400, "Invalid role change.", "تغییر نقش به /از مدیر سیستم معتبر نمی باشد"),
+
     //endregion
+
     ;
 
     private final int code;

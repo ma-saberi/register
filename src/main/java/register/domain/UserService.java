@@ -66,4 +66,19 @@ public class UserService {
         }
         return user;
     }
+
+    @Transactional
+    public void changeRole(String username, UserRole role) throws UserException {
+        User user = userRepository.getUserByUsername(username);
+
+        if (role.equals(UserRole.SYS_ADMIN) || user.getRole().equals(UserRole.SYS_ADMIN)) {
+            throw new UserException(UserExceptionStatus.INVALID_ROLE_CHANGE);
+        }
+
+        if (user == null) {
+            throw new UserException(UserExceptionStatus.USERNAME_NOT_FOUND);
+        }
+        user.setRole(role);
+        userRepository.updateUser(user);
+    }
 }
