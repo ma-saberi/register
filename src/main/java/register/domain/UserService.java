@@ -46,14 +46,22 @@ public class UserService {
     }
 
     @Transactional
-    public User registerUser(String username, String name, String email, String password, Long number, String address, String introducer) throws UserException {
+    public User registerUser(String username, String name, String email, String password, Long phoneNumber, String address, String introducer) throws UserException {
 
         if (!checkUniqueData("username", username)) {
             throw new UserException(UserExceptionStatus.INVALID_UNIQUE_USERNAME);
         }
 
+        if (!userUtil.emailIsValid(email)) {
+            throw new UserException(UserExceptionStatus.INVALID_EMAIL);
+        }
+
         if (!checkUniqueData("email", email)) {
             throw new UserException(UserExceptionStatus.INVALID_UNIQUE_EMAIL);
+        }
+
+        if (phoneNumber != null && !userUtil.phoneIsValid(phoneNumber.toString())) {
+            throw new UserException(UserExceptionStatus.INVALID_PHONE_NUMBER);
         }
 
         User introducerUser = null;
@@ -65,7 +73,7 @@ public class UserService {
             }
         }
 
-        return userRepository.registerUser(username, name, email, password, number, address, introducerUser, UserRole.USER);
+        return userRepository.registerUser(username, name, email, password, phoneNumber, address, introducerUser, UserRole.USER);
     }
 
     @Transactional
